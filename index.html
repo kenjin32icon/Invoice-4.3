@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Dog Tales Kennel - Expert dog training, breeding, and care services in Kenya">
+    <title>Dog Tales Kennel | Where Dogs Become Family</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #f7ecdb;
+            --secondary-color: #8D6E63;
+            --accent-color: #FFAB91;
+            --light-bg: #FFFEF0;
+            --dark-text: #3E2723;
+            --nav-icon-border: #5D4037;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--dark-text);
+            background-color: var(--light-bg);
+        }
+
+        .header {
+            background: var(--primary-color);
+            padding: 0.5rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: top 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1500px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 1.5rem;
+            color: var(--dark-text);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo-img {
+            width: 100px;
+            height: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .logo:hover .logo-img {
+            transform: rotate(15deg);
+        }
+
+        .nav-links {
+            display: none; /* Hide by default */
+            position: absolute;
+            top: 60px; /* Position below the header */
+            right: 0;
+            background: rgb(250, 229, 211);
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            flex-direction: column;
+            gap: 0;
+            list-style: none;
+            padding: 1rem;
+            transition: max-height 0.3s ease;
+            overflow: hidden;
+        }
+
+        .nav-links a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80px;
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: grey;
+            font-weight: 500;
+        }
+
+        .nav-links a::before {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 50px;
+            background-image: url('https://i.pinimg.com/736x/b5/f9/25/b5f9251560ebffbd9297fb369dcd2f2a.jpg');
+            background-size: cover;
+            border-radius: 50%;
+            border: 2px solid var(--nav-icon-border);
+            margin-bottom: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255 , 0.2);
+        }
+
+        .menu-button {
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--dark-text);
+            transition: transform 0.3s ease;
+        }
+
+        .menu-button.active {
+            transform: translateY(-10px);
+        }
+
+        .nav-container:hover .nav-links {
+            display: flex; /* Show on hover */
+        }
+
+        .hero {
+            position: relative;
+            height: 100vh;
+            overflow: hidden;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* Center vertically */
+            align-items: center; /* Center horizontally */
+            margin-top: 20px;
+        }
+
+        .hero-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 1; /* Ensure text is above images */
+            position: absolute; /* Position text absolutely within the hero section */
+            top: 50%; /* Move down to the center */
+            left: 50%; /* Move right to the center */
+            transform: translate(-50%, -50%); /* Adjust position to truly center */
+            color: white; /* Ensure text is visible against the background */
+        }
+
+        .image-container {
+            width: 100%;
+            height: 600px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 1s ease-in-out;
+            position: absolute; /* Position images absolutely */
+            top: 0;
+            left: 0;
+            opacity: 0; /* Start with images hidden */
+        }
+
+        .image-container img.active {
+            opacity: 1; /* Show active image */
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 1);
+            margin-bottom: 1rem;
+            color: white;
+            letter-spacing: -1px;
+        }
+
+        .hero h2 {
+            font-size: 2rem;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 2);
+            font-weight: 200;
+            max-width: 800px;
+            line-height: 1.3;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--secondary-color);
+            font-size: 2.5rem;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 100px;
+            height: 3px;
+            background: var(--accent-color);
+            margin: 1rem auto;
+        }
+
+        .services-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            padding: 0 2rem;
+        }
+
+        .service-card {
+            background: var(--light-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            min-height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card h3 {
+            font-size: 1.5rem;
+            color: var(--secondary-color);
+            margin-bottom: 1rem;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .service-card h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 2px;
+            background: var(--accent-color);
+        }
+
+        .film-strip {
+            height: 180px;
+            margin: -1.5rem -1.5rem 2rem -1.5rem;
+            border-radius: 15px 15px 0 0;
+            overflow: hidden;
+            position: relative;
+            background: var(--dark-text);
+            display: flex;
+        }
+
+        .media-item {
+            flex: 0 0 auto;
+            width: 250px;
+            height: 180px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .media-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        .video-container {
+            display: none; /* Initially hidden */
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .card-content {
+            display: block;
+            font-size: 1.5em;
+        }
+
+        .service-quote {
+            margin-top: auto;
+            padding: 1rem;
+            background: rgba(216, 155, 116, 0.1);
+            border-radius: 8px;
+            font-style: italic;
+            position: relative;
+        }
+
+        .service-quote::before {
+            content: '“';
+            position: absolute;
+            left: -5px;
+            top: -15px;
+            font-size: 3rem;
+            color: var(--accent-color);
+            font-family: 'Times New Roman', serif;
+        }
+
+        .why-us {
+            background: var(--light-bg);
+            padding: 3rem 2rem;
+            margin: 2rem 0;
+        }
+
+        .why-us ul {
+            max-width: 800px;
+            margin: 0 auto;
+            list-style: none;
+        }
+
+        .why-us li {
+            padding: 1rem;
+            margin: 1rem 0;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .why-us li:hover {
+            transform: translateX(10px);
+        }
+
+        .contact-details {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .contact-details div {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background: linear-gradient(to right, var(--secondary-color), var(--dark-text));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            display: grid;
+            gap: 1rem;
+        }
+
+        .whatsapp-button {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background-color: #25D366;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 1000;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        img {
+            width: 100%;
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .service-card {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .hero h1 {
+                font-size: 3rem; /* Smaller font size for mobile */
+            }
+
+            .hero h2 {
+                font-size: 1.5rem; /* Smaller font size for mobile */
+            }
+
+            .services-grid {
+                flex-direction: column;
+                padding: 0;
+            }
+
+            .service-card {
+                min-height: auto;
+            }
+
+            .nav-links {
+                flex-direction: column; /* Column layout for mobile */
+                padding: 1rem;
+            }
+
+            .nav-links a {
+                width: auto; /* Full width for mobile */
+                font-size: 1rem; /* Adjusted font size for mobile */
+            }
+
+            .whatsapp-button {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .youtube-button {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+        }
+
+        .whatsapp-button:hover {
+            background-color: #128C7E;
+            transform: translateY(-10px);
+        }
+
+        .whatsapp-tooltip {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background-color: #25D366;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .whatsapp-button:hover .whatsapp-tooltip {
+            display: block;
+        }
+
+        .youtube-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+ background-color: #FF0000;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            font-size: 24px;
+            z-index: 1000;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .youtube-button:hover {
+            background-color: #C8102E;
+            transform: translateY(-10px);
+        }
+
+        .youtube-tooltip {
+            position: absolute;
+            bottom: 70px;
+            right: 0;
+            background-color: #FF0000;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            display: none;
+            z-index: 1001;
+        }
+
+        .youtube-button:hover .youtube-tooltip {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+
+<header class="header">
+    <nav class="nav-container">
+        <a href="#" class="logo">
+            <img src="https://github.com/dogtales/Website/blob/main/website%20logo/Screenshot_from_2025-04-21_17-07-39-removebg-preview.png?raw=true" alt="Dog Tales Logo" class="logo-img fitting-logo">
+            <span class="logo-text">Dog Tales Kennels</span>
+        </a>
+        <button class="menu-button" aria-label="Toggle navigation">&#9776; <span>menu<span> </button>
+        <ul class="nav-links">
+            <li><a href="#services"><span>Services</span></a></li>
+            <li><a href="#why-us"><span>Why Us</span></a></li>
+            <li><a href="#contact"><span>Contact</span></a></li>
+        </ul>
+    </nav>
+</header>
+
+<section class="hero">
+
+    <div class="image-container">
+
+        <img src="https://i.pinimg.com/736x/8a/5c/d7/8a5cd78be2f38f4cbb4ef8f389123b17.jpg" class="active" alt="Dog Image 1">
+
+        <img src="https://i.pinimg.com/736x/a3/99/ae/a399ae87aab74d5543474daa9b7091a1.jpg" alt="Dog Image 2">
+
+        <img src="https://i.pinimg.com/736x/d8/37/ad/d837ad459ccaea8b76a2a0283eebe5ad.jpg" alt="Dog Image 3">
+
+        <img src="https://i.pinimg.com/736x/8a/5c/d7/8a5cd78be2f38f4cbb4ef8f389123b17.jpg" alt="Dog Image 4">
+
+        <img src="https://i.pinimg.com/736x/8c/2b/0b/8c2b0b6b250d4f32111ec64206ec7f47.jpg" alt="Dog Image 5">
+
+        <img src="https://i.pinimg.com/736x/c3/6c/e6/c36ce6598145851cc42f0f3ece45e622.jpg" alt="Dog Image 6">
+
+        <img src="https://i.pinimg.com/736x/6d/0d/2b/6d0d2b88f01a87f791e0a4c144c064ac.jpg" alt="Dog Image 7">
+
+    </div>
+
+    <div class="hero-content">
+
+        <h1>Welcome to Dog Tales Kennel</h1>
+
+        <h2>Your Trusted Partner in Dog Care and Training!</h2>
+
+    </div>
+
+</section>
+
+<section class="section">
+    <div class="welcome-section">
+        <h2>Welcome to Dog Tales Kennel!</h2>
+        <p>Calling all Kenyan dog lovers! Whether you're raising dogs in the countryside, training a guardian for your Nairobi home, or just need a helping hand with your furry friend, we're here for you. Discover expert guidance on <strong>dog breeding</strong>, <strong>security training (Dog Tales Security)</strong>, and <strong>professional dog care</strong>—all tailored for Kenya's unique needs.</p>
+    </div>
+</section>
+
+<section id="services" class="section">
+    <h2 class="section-title">Our Services</h2>
+    <div class="services-grid">
+        <div class="service-card">
+            <h3>Dog Training</h3>
+            <div class="film-strip">
+                <div class="media-item">
+                    <img src="https://via.placeholder.com/250x180" alt="Training Image 1">
+                </div>
+                <div class="media-item">
+                    <img src="https://via.placeholder.com/250x180" alt="Training Image 2">
+                </div>
+                <div class="media-item">
+                    <img src="https://via.placeholder.com/250x180" alt="Training Image 3">
+                </div>
+            </div>
+            <div class="video-container">
+                <iframe id="trainingVideo" width="100%" height="315" src="https://youtube.com/shorts/6Jqv7oHQ6yw?si=OqoS8_yCsk21t2wm" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="card-content">
+                <h3>Dog Training Services</h3>
+                <ul>
+                    <li>Home and family protection (urban areas)</li>
+                    <li>Farm and livestock security (rural communities)</li>
+                    <li>Behavior training for noisy streets and markets</li>
+                </ul>
+                <p class="service-quote">"We don't just train dogs—we build trust!"</p>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <h3>Dog Breeding</h3>
+            <div class="film-strip">
+                <div class="media-item">
+                    <img src="https://via.placeholder.com/250x180" alt="Breeding Image 1">
+                </div>
+                <div class="media-item">
+                    <img src="https://via.placeholder.com/250x180" alt="Breeding Image 2">
+                </div>
+                <div class="media-item">
+                    <img src="https://via.placeholder.com/250x180" alt="Breeding Image 3">
+                </div>
+            </div>
+            <div class="video-container">
+                <iframe id="breedingVideo" width="100%" height="315" src="https://www.youtube.com/embed/your_breeding_video_link" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="card-content">
+                <h3>Dog Breeding Services</h3>
+                <ul>
+                    <li>Choosing the best pairs for strong, healthy puppies</li>
+                    <li>Safe breeding practices for Kenya's climate</li>
+                    <li>Raising pups ready for homes, farms, or security work</li>
+                </ul>
+                <p class="service-quote">"A good breeder builds a better Kenya—one puppy at a time!"</p>
+            </div>
+        </div>
+
+        <div class="service-card">
+            <h3>Dog Handling</h3>
+            <div class="film-strip">
+                <div class="media-item">
+                    <img src="https://via.placeholder.com/250x180" alt="Handling Image 1">
+                </div>
+                <div class="media-item">
+                    <img src="https://via.placeholder.com/250x180" alt="Handling Image 2">
+                </div>
+                <div class="media-item">
+                    <img src="https://via.placeholder.com/250x180" alt="Handling Image 3">
+                </div>
+            </div>
+            <div class="video-container">
+                <iframe id="handlingVideo" width="100%" height="315" src="https://www.youtube.com/embed/your_handling_video_link" frameborder="0" allowfullscreen></iframe>
+            </div>
+            <div class="card-content">
+                <h3>Dog Handling Services</h3>
+                <ul>
+                    <li>Event handling for weddings/parties</li>
+                    <li>Daily care and grooming</li>
+                    <li>New owner support programs</li>
+                </ul>
+                <p class="service-quote">"In Kenya, dogs are family—we treat yours like our own!"</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="why-us" class="section why-us">
+    <h2 class="section-title">Why Kenyans Love Us</h2>
+    <ul>
+        <li><strong>Local expertise:</strong> We understand Kenya's needs—from bustling cities to quiet shambas</li>
+        <li><strong>Practical solutions:</strong> Training for security, breeding for health, care for busy lifestyles</li>
+        <li><strong>Community focus:</strong> Helping build safer, happier lives with dogs</li </ul>
+</section>
+
+<section id="contact" class="section">
+    <h2 class="section-title">Contact Us</h2>
+    <div class="contact-details">
+        <p>Join us in making Kenya a better place for dogs and their people! 🐕✨</p>
+        <div>
+            <p>📧 <a href="mailto:dogtaleskennels@gmail.com" target="_blank">dogtaleskennels@gmail.com</a></p>
+            <p>📱 +254 115 411167</p>
+            <p> 📍 Nairobi, Kenya</p>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <p>&copy; 2025 Dog Tales Kennel. All rights reserved.</p>
+    <p>Proudly serving Kenyan dog lovers since 2023</p>
+</footer>
+
+<a href="https://wa.me/254115411167" class="whatsapp-button" target="_blank">
+    <img src="https://github.com/dogtales/Website/blob/main/Website%20whatsapp/images.jpeg?raw=true" alt="whatsapp">
+    <i class="fab fa-whatsapp"></i>
+    <div class="whatsapp-tooltip">WhatsApp Us</div>
+</a>
+
+<a href="https://www.youtube.com/@Mawagidoo" class="youtube-button" target="_blank">
+    <img src="https://github.com/dogtales/Website/blob/main/Website%20youtube/Youtube3.png?raw=true" alt="YouTube">
+    <i class="fab fa-youtube"></i>
+    <div class="youtube-tooltip">Follow us</div>
+</a>
+
+<script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+<script>
+    const images = document.querySelectorAll('.image-container img'); // Select all images within the image container
+
+    let currentIndex = 0;
+
+    function changeImage() {
+        images[currentIndex].classList.remove('active'); // Remove active class from current image
+        currentIndex = (currentIndex + 1) % images.length; // Update index to the next image
+        images[currentIndex].classList.add('active'); // Add active class to the new current image
+    }
+
+    // Set interval to change images every 4 seconds
+    setInterval(changeImage, 4000);
+
+    // Smooth scrolling for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault(); // Prevent default anchor click behavior
+            document.querySelector(this.getAttribute('href')).scrollIntoView({ behavior: 'smooth' }); // Smooth scroll to the target section
+        });
+    });
+
+    const serviceCards = document.querySelectorAll('.service-card');
+    serviceCards.forEach(card => {
+        const filmStrip = card.querySelector('.film-strip');
+        const videoContainer = card.querySelector('.video-container');
+
+        card.addEventListener('mouseenter', () => {
+            filmStrip.style.display = 'flex';
+            videoContainer.style.display = 'none';
+        });
+
+        card.addEventListener('mouseleave', () => {
+            filmStrip.style.display = 'none';
+            videoContainer.style.display = 'block';
+        });
+
+        card.addEventListener('click', () => {
+            const video = videoContainer.querySelector('iframe');
+            video.src += "?autoplay=1"; // Autoplay the video on click
+        });
+    });
+
+    const menuButton = document.querySelector('.menu-button');
+    const navLinks = document.querySelector('.nav-links');
+    let menuVisible = false;
+
+    menuButton.addEventListener('click', () => {
+        menuVisible = !menuVisible;
+        menuButton.classList.toggle('active', menuVisible);
+        navLinks.style.display = menuVisible ? 'flex' : 'none';
+    });
+
+    window.addEventListener('scroll', () => {
+        if (menuVisible) {
+            menuVisible = false;
+            navLinks.style.display = 'none';
+            menuButton.classList.remove('active');
+        }
+    });
+</script>
+
+</body>
+</html>
